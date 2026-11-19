@@ -1,0 +1,63 @@
+name: Weekly market reads (artifacts only)
+on:
+  schedule:
+    - cron: '45 11 * * 3,5,0'
+  workflow_dispatch:
+    inputs:
+      market:
+        description: Market to render (today must be its scheduled Manila day)
+        type: choice
+        required: true
+        options: [gold, us, btc, pse]
+permissions:
+  contents: read
+# not used yet; posting needs George's typed go:
+# META_PAGE_TOKEN, META_PAGE_ID, THREADS_ACCESS_TOKEN, THREADS_USER_ID,
+# X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_TOKEN_SECRET.
+# No secrets, posting code, or publishing steps are used in this workflow.
+jobs:
+  slot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      market: ${{ steps.pick.outputs.market }}
+      id: ${{ steps.pick.outputs.id }}
+    steps:
+      - id: pick
+        env:
+          REQUESTED: ${{ inputs.market }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const d=new Date(Date.now()+8*3600000),day=d.toISOString().slice(0,10);
+          const m=process.env.REQUESTED||({0:'btc',3:'gold',5:'us'})[d.getUTCDay()];
+          if(!['gold','us','btc','pse'].includes(m))throw Error('No market today');
+          const w={gold:3,us:5,btc:0},delta=(d.getUTCDay()-(w[m]??d.getUTCDay())+7)%7;
+          const date=new Date(Date.parse(day+'T00:00Z')-delta*86400000).toISOString().slice(0,10);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,`market=${m}\nid=${date}-${m}\n`);
+          NODE
+  render:
+    needs: slot
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: market-reads-${{ needs.slot.outputs.id }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-audit --no-fund
+      - name: Generate local artifacts only
+        env:
+          MARKET: ${{ needs.slot.outputs.market }}
+          SLOT_ID: ${{ needs.slot.outputs.id }}
+        run: node src/run.js --market "$MARKET" --slot-id "$SLOT_ID"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: market-read-${{ needs.slot.outputs.id }}
+          path: runs/${{ needs.slot.outputs.id }}/
+          retention-days: 14
+          if-no-files-found: warn

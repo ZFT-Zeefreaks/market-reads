@@ -1,0 +1,56 @@
+{
+  "gold": {
+    "status": "FAILED",
+    "checksErrors": [
+      "GIF missing (see GIF-PENDING.txt)"
+    ],
+    "captionLengths": {
+      "facebook": 458,
+      "x": 198,
+      "threads": 198
+    },
+    "allTextBoundsPass": true,
+    "png": {
+      "width": 1600,
+      "height": 1100,
+      "bytes": 231779
+    },
+    "sha256PNG": "9db7028e792eb42c8ca9736a627f2caeb0faec96866c6ab24be84b2c84fedf73"
+  },
+  "us": {
+    "status": "FAILED",
+    "checksErrors": [
+      "GIF missing (see GIF-PENDING.txt)"
+    ],
+    "captionLengths": {
+      "facebook": 535,
+      "x": 191,
+      "threads": 191
+    },
+    "allTextBoundsPass": true,
+    "png": {
+      "width": 1600,
+      "height": 1100,
+      "bytes": 237062
+    },
+    "sha256PNG": "24721b0ca582e25fa667d7ed5c6473cc23c278f14acf12c84e274492482a09ce"
+  },
+  "btc": {
+    "status": "FAILED",
+    "checksErrors": [
+      "GIF missing (see GIF-PENDING.txt)"
+    ],
+    "captionLengths": {
+      "facebook": 447,
+      "x": 187,
+      "threads": 187
+    },
+    "allTextBoundsPass": true,
+    "png": {
+      "width": 1600,
+      "height": 1100,
+      "bytes": 230002
+    },
+    "sha256PNG": "1a845707cca72e45160508311f259cc486eb740d16c1579814a3212b08591936"
+  }
+}

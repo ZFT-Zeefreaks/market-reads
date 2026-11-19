@@ -1,0 +1,12 @@
+[Unit]
+Description=Wed gold, Fri US, Sun BTC at 19:45 Manila; deadline 20:00
+
+[Timer]
+OnCalendar=Wed,Fri,Sun *-*-* 11:45:00 UTC
+AccuracySec=1s
+RandomizedDelaySec=0
+Persistent=false
+Unit=market-reads.service
+
+[Install]
+WantedBy=timers.target

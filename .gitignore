@@ -1,0 +1,6 @@
+node_modules/
+runs/
+test/compare.png
+test/compare-phone.png
+*.log
+test/.work/

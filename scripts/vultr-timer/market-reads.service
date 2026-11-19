@@ -1,0 +1,21 @@
+[Unit]
+Description=ZFT weekly market-read artifacts only (no posting)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=market-reads
+WorkingDirectory=/opt/market-reads
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /opt/market-reads/scripts/vultr-timer/dispatch.js
+TimeoutStartSec=30min
+Nice=15
+CPUQuota=50%
+MemoryMax=1G
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/market-reads/runs
+UMask=0077

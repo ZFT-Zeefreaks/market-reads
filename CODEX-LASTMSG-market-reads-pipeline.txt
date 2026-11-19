@@ -1,0 +1,11 @@
+> **SEND THIS TO CLAUDE**
+>
+> Built locally in `D:/Workspaces/market-reads`. See [README](D:/Workspaces/market-reads/README.md), [comparison](D:/Workspaces/market-reads/test/compare.png), and [HANDOFF](D:/Workspaces/market-reads/HANDOFF.md).
+>
+> Tests: **8/8 passed**. All four series exactly match the sample analysis. Independent critics: **30/36 each, no zero**.
+>
+> ffmpeg is blocked by EPERM. All three PNGs and 76 frames per market are ready, with GIF-PENDING.txt and recovery commands. Run results correctly remain FAILED for missing GIFs.
+>
+> Sample replay is quarantined because its history/completion/gaps fail production requirements. It can never become READY.
+>
+> Actions workflow and Vultr timer definitions are supplied but inactive. No network, installs, git, credentials, posting, or live changes occurred.

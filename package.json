@@ -1,0 +1,9 @@
+{
+  "name": "zft-market-reads",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20 <27" },
+  "scripts": { "test": "node test/pipeline.test.js", "run": "node src/run.js", "compare": "node test/compare.js" },
+  "dependencies": { "sharp": "0.35.5", "ffmpeg-static": "5.2.0" }
+}
