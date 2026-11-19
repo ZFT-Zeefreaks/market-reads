@@ -4,3 +4,5 @@ test/compare.png
 test/compare-phone.png
 *.log
 test/.work/
+CODEX-LASTMSG-*.txt
+HANDOFF.md
