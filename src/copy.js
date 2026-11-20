@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {json,save,args,direct,sha256} from './common.js';
 export const CTA='Want to learn more? Join our Discord, link in bio.';
+// George 20 Nov: the only disclaimer line is 'Not financial advice.' (no 18+, no risk line).
+export const NFA='Not financial advice.';
 export const label = m => ({gold:'Gold (futures)',us:'S&P 500',btc:'Bitcoin'})[m];
 export const format = (n,m) => n.toLocaleString('en-US',{minimumFractionDigits:m==='btc'?0:1,maximumFractionDigits:m==='btc'?0:1});
 export function trend(a){return a.score===0?'down':a.score===6?'up':'mixed';}
@@ -36,8 +38,8 @@ export function makeCopy(market,A,slotId){
   }
   let nasdaqLine='',nasdaqNote='';
   if(market==='us'){const n=trend(A.nasdaq);nasdaqLine=n==='down'?'below its 20D, 50D and 100D MAs':n==='up'?'above its 20D, 50D and 100D MAs':'between its moving averages';nasdaqNote=`\n\nNasdaq is ${n==='down'?'also below all three moving averages':n==='up'?'above all three moving averages':'between its moving averages'}. Read its trend alongside the S&P.`;}
-  const facebook=`${headline}.\n\n${observation}\n\n${scenario}\n\nWatch ${down} below. A close under it would break support. Waiting for confirmation beats forcing a trade.${nasdaqNote}\n\n${CTA}`;
-  const x=short+'\n\n'+CTA;
+  const facebook=`${headline}.\n\n${observation}\n\n${scenario}\n\nWatch ${down} below. A close under it would break support. Waiting for confirmation beats forcing a trade.${nasdaqNote}\n\n${CTA}\n\n${NFA}`;
+  const x=short+'\n\n'+CTA+'\n\n'+NFA;
   // Keep the short template ASCII, so code-point and X weighted lengths agree.
   if(!/^[\x00-\x7f]*$/.test(x)||x.length>280)throw Error('X / Threads copy exceeds 280 characters');
   return {market,state,seed,headline,facebook,x,threads:x,verdict,watch,nasdaqLine};

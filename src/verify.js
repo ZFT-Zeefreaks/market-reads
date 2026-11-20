@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {sharp,json,save,args,direct,sha256,markets,readCSV} from './common.js';
-import {CTA,makeCopy} from './copy.js';
+import {CTA,NFA,makeCopy} from './copy.js';
 import {validate} from './fetch.js';
 export const forbidden=[/guaranteed/i,/sure win/i,/will moon/i,/built by zeefreaks/i,/watch george.s session/i,/sec.approved/i,/\blicensed\b/i,/\binsured\b/i,/\bsafe\b/i,/\bTolkien\b/i,/Middle.earth/i,/\bhobbit\b/i,/\bMithril\b/i,/only \d+ slots left/i,/tag\/share if/i,/\bbroader?\b/i,/—/];
 function numbers(value,out=[]){if(typeof value==='number'&&Number.isFinite(value))out.push(value);else if(value&&typeof value==='object')for(const v of Object.values(value))numbers(v,out);return out;}
@@ -12,7 +12,9 @@ export function checkCopy(c,A,slotId){
   const tokens=[];
   for(const channel of ['facebook','x','threads']){
     const text=c[channel]||'';
-    if(!text.endsWith(CTA))errors.push('Missing CTA: '+channel);
+    if(!text.includes(CTA))errors.push('Missing CTA: '+channel);
+    if(!text.endsWith(NFA))errors.push('Missing disclaimer: '+channel);
+    if(/18+|losses are possible|involves risk/i.test(text))errors.push('Old disclaimer wording: '+channel);
     if(channel!=='facebook'&&(text.length>280||!/^[\x00-\x7f]*$/.test(text)))errors.push('Short copy must be ASCII and <=280 characters');
     // 500 is the instrument's proper name, not a quoted market level.
     const numericText=text.replaceAll('S&P 500','S&P');
