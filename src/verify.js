@@ -14,7 +14,7 @@ export function checkCopy(c,A,slotId){
     const text=c[channel]||'';
     if(!text.includes(CTA))errors.push('Missing CTA: '+channel);
     if(!text.endsWith(NFA))errors.push('Missing disclaimer: '+channel);
-    if(/18+|losses are possible|involves risk/i.test(text))errors.push('Old disclaimer wording: '+channel);
+    if(/\b18\+|losses are possible|involves risk/i.test(text))errors.push('Old disclaimer wording: '+channel);
     if(channel!=='facebook'&&(text.length>280||!/^[\x00-\x7f]*$/.test(text)))errors.push('Short copy must be ASCII and <=280 characters');
     // 500 is the instrument's proper name, not a quoted market level.
     const numericText=text.replaceAll('S&P 500','S&P');
